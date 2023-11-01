@@ -57,6 +57,8 @@
 
         public void TryConnect(Direction direction, Pipe nextPipe)
         {
+            if (nextPipe == null)
+                return;
             switch (this.Type)
             {
                 case PipeType.Vertical:
@@ -167,6 +169,8 @@
                             this.TopAdjacentPipe = nextPipe;
                     }
                     break;
+                case PipeType.Source:
+                case PipeType.Destination:
                 case PipeType.Cross:
                     if (direction == Direction.Top)
                     {
@@ -250,14 +254,16 @@
     {
         for (int i = 0; i < pipes.GetLength(0); i++)
         {
-            for (int j = 0; j < pipes.GetLength(1); i++)
+            for (int j = 0; j < pipes.GetLength(1); j++)
             {
+                if (pipes[i, j] == null)
+                    continue;
                 if (i > 0)
                 {
                     Pipe topPipe = pipes[i - 1, j];
                     pipes[i, j].TryConnect(Direction.Top, topPipe);
                 }
-                if (i < pipes.GetLength(0))
+                if (i < pipes.GetLength(0) - 1)
                 {
                     Pipe bottomPipe = pipes[i + 1, j];
                     pipes[i, j].TryConnect(Direction.Bottom, bottomPipe);
@@ -267,7 +273,7 @@
                     Pipe leftPipe = pipes[i, j - 1];
                     pipes[i, j].TryConnect(Direction.Left, leftPipe);
                 }
-                if (j < pipes.GetLength(1))
+                if (j < pipes.GetLength(1) - 1)
                 {
                     Pipe rightPipe = pipes[i, j + 1];
                     pipes[i, j].TryConnect(Direction.Right, rightPipe);
