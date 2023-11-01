@@ -46,8 +46,13 @@
         Console.WriteLine(program.solution(state) == 19);
     }
 
+    private Pipe[,] pipes;
+
     public int solution(string[] state)
     {
+        int numOfRow = state.Length;
+        int numOfCol = state[0].Length;
+        pipes = new Pipe[numOfRow, numOfCol];
         return 0;
     }
 }
