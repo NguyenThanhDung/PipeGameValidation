@@ -60,12 +60,12 @@
         Console.WriteLine(program.solution(state) == 19);
     }
 
-    private Pipe[,] pipes;
-
     public int solution(string[] state)
     {
-        pipes = ParseState(state);
-        return 0;
+        Pipe[,] pipes = ParseState(state);
+        pipes = FindConnections(pipes);
+        pipes = PourWater(pipes);
+        return CountWaterPipe(pipes);
     }
 
     private Pipe[,] ParseState(string[] state)
@@ -85,5 +85,20 @@
             }
         }
         return pipes;
+    }
+
+    private Pipe[,] FindConnections(Pipe[,] pipes)
+    {
+        return null;
+    }
+
+    private Pipe[,] PourWater(Pipe[,] pipes)
+    {
+        return null;
+    }
+
+    private int CountWaterPipe(Pipe[,] pipes)
+    {
+        return 0;
     }
 }
