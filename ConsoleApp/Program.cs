@@ -8,7 +8,9 @@
         BottomLeft,
         TopLeft,
         TopRight,
-        Cross
+        Cross,
+        Source,
+        Destination
     }
 
     public class Pipe
@@ -21,17 +23,29 @@
         private Pipe rightAdjacentPipe;
         private bool hasWater;
 
-        public Pipe(PipeType type)
-        {
-            this.Type = type;
-        }
-
         public PipeType Type { get => type; set => type = value; }
         public Pipe TopAdjacentPipe { get => topAdjacentPipe; set => topAdjacentPipe = value; }
         public Pipe BottomAdjacentPipe { get => bottomAdjacentPipe; set => bottomAdjacentPipe = value; }
         public Pipe LeftAdjacentPipe { get => leftAdjacentPipe; set => leftAdjacentPipe = value; }
         public Pipe RightAdjacentPipe { get => rightAdjacentPipe; set => rightAdjacentPipe = value; }
         public bool HasWater { get => hasWater; set => hasWater = value; }
+
+        public Pipe(char state)
+        {
+            if (state >= 'a' && state <= 'z')
+            {
+                this.Type = PipeType.Source;
+            }
+            else if (state >= 'A' && state <= 'Z')
+            {
+                this.Type = PipeType.Destination;
+            }
+            else
+            {
+                int num = state - '0';
+                this.Type = (PipeType)num;
+            }
+        }
     }
 
     public static void Main()
@@ -53,6 +67,18 @@
         int numOfRow = state.Length;
         int numOfCol = state[0].Length;
         pipes = new Pipe[numOfRow, numOfCol];
+
+        for (int i = 0; i < state.Length; i++)
+        {
+            for (int j = 0; j < state.Length; j++)
+            {
+                if (state[i][j] != '0')
+                {
+                    pipes[i, j] = new Pipe(state[i][j]);
+                }
+            }
+        }
+
         return 0;
     }
 }
