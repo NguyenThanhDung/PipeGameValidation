@@ -328,7 +328,7 @@
             foreach (var direction in pipe.AdjacentPipes.Keys)
             {
                 var adjacentPipe = pipe.AdjacentPipes[direction];
-                if (!adjacentPipe.HasWater)
+                if (adjacentPipe.Type != PipeType.Destination && !adjacentPipe.HasWater)
                 {
                     adjacentPipe.HasWater = true;
                     queue.Enqueue(adjacentPipe);
