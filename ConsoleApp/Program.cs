@@ -8,9 +8,7 @@
         BottomLeft,
         TopLeft,
         TopRight,
-        Cross,
-        Source,
-        Destination
+        Cross
     }
 
     public enum Direction
@@ -40,13 +38,9 @@
 
         public Pipe(char state)
         {
-            if (state >= 'a' && state <= 'z')
+            if ((state >= 'a' && state <= 'z') || (state >= 'A' && state <= 'Z'))
             {
-                this.Type = PipeType.Source;
-            }
-            else if (state >= 'A' && state <= 'Z')
-            {
-                this.Type = PipeType.Destination;
+                this.Type = PipeType.Cross;
             }
             else
             {
@@ -169,8 +163,6 @@
                             this.rightAdjacentPipe = nextPipe;
                     }
                     break;
-                case PipeType.Source:
-                case PipeType.Destination:
                 case PipeType.Cross:
                     if (direction == Direction.Top)
                     {
