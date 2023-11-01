@@ -162,7 +162,7 @@
                     }
                     else if (direction == Direction.Right)
                     {
-                        if (nextPipe.Type == PipeType.Vertical
+                        if (nextPipe.Type == PipeType.Horizontal
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.Cross)
@@ -198,7 +198,7 @@
                     }
                     else
                     {
-                        if (nextPipe.Type == PipeType.Vertical
+                        if (nextPipe.Type == PipeType.Horizontal
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.Cross)
