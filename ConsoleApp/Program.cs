@@ -427,7 +427,9 @@
             {
                 var adjacentPipe = pipe.AdjacentPipes[direction];
                 var oppositeDirection = GetOpositeDirection(direction);
-                if (adjacentPipe.Type != PipeType.Destination && adjacentPipe.WaterPresences[oppositeDirection] == false)
+                if (adjacentPipe.Type != PipeType.Destination
+                    && pipe.WaterPresences[direction] == true
+                    && adjacentPipe.WaterPresences[oppositeDirection] == false)
                 {
                     adjacentPipe.PourWater(oppositeDirection);
                     queue.Enqueue(adjacentPipe);
