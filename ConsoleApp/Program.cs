@@ -442,7 +442,27 @@
 
     private int CountWaterPipe(Pipe[,] pipes)
     {
-        return 0;
+        int count = 0;
+        foreach (var pipe in pipes)
+        {
+            if (pipe != null && pipe.Type != PipeType.Source && pipe.Type != PipeType.Destination)
+            {
+                bool hasWater = false;
+                foreach (var direction in pipe.WaterPresences.Keys)
+                {
+                    if (pipe.WaterPresences[direction])
+                    {
+                        hasWater = true;
+                        break;
+                    }
+                }
+                if (hasWater)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     private Direction GetOpositeDirection(Direction direction)
