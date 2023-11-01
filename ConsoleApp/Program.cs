@@ -318,7 +318,8 @@
                         waterPresences[Direction.Left] = true;
                     }
                     break;
-                default:
+                case PipeType.Cross:
+                case PipeType.Source:
                     if (pourDirection == Direction.Top || pourDirection == Direction.Bottom)
                     {
                         waterPresences[Direction.Top] = true;
@@ -330,20 +331,32 @@
                         waterPresences[Direction.Right] = true;
                     }
                     break;
+                default:    // Destination
+                    waterPresences[pourDirection] = true;
+                    break;
             }
         }
     }
 
     public static void Main()
     {
+        Program program = new Program();
+
         string[] state = {"a224C22300000",
          "0001643722B00",
          "0b27275100000",
          "00c7256500000",
          "0006A45000000"};
-
-        Program program = new Program();
         Console.WriteLine(program.solution(state) == 19);
+
+        state = new string[] {"0002270003777z24",
+            "3a40052001000101",
+            "1064000001000101",
+            "1006774001032501",
+            "1000001001010001",
+            "1010001001064035",
+            "6227206A0622Z250"};
+        Console.WriteLine(program.solution(state) == -48);
     }
 
     public int solution(string[] state)
@@ -427,12 +440,12 @@
             {
                 var adjacentPipe = pipe.AdjacentPipes[direction];
                 var oppositeDirection = GetOpositeDirection(direction);
-                if (adjacentPipe.Type != PipeType.Destination
-                    && pipe.WaterPresences[direction] == true
+                if (pipe.WaterPresences[direction] == true
                     && adjacentPipe.WaterPresences[oppositeDirection] == false)
                 {
                     adjacentPipe.PourWater(oppositeDirection);
-                    queue.Enqueue(adjacentPipe);
+                    if (adjacentPipe.Type != PipeType.Destination)
+                        queue.Enqueue(adjacentPipe);
                 }
             }
         }
