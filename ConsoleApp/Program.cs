@@ -31,6 +31,19 @@
         public Dictionary<Direction, Pipe> AdjacentPipes { get => adjacentPipes; }
         public Dictionary<Direction, bool> WaterPresences { get => waterPresences; }
 
+        public bool HasWater
+        {
+            get
+            {
+                foreach (var direction in waterPresences.Keys)
+                {
+                    if (waterPresences[direction])
+                        return true;
+                }
+                return false;
+            }
+        }
+
         public Pipe(char state)
         {
             if (state >= 'a' && state <= 'z')
@@ -456,26 +469,34 @@
     private int CountWaterPipe(Pipe[,] pipes)
     {
         int count = 0;
+        bool filledAllDestinations = true;
         foreach (var pipe in pipes)
         {
-            if (pipe != null && pipe.Type != PipeType.Source && pipe.Type != PipeType.Destination)
+            if (pipe == null || pipe.Type == PipeType.Source)
+                continue;
+
+            if (pipe.Type == PipeType.Destination)
             {
-                bool hasWater = false;
-                foreach (var direction in pipe.WaterPresences.Keys)
+                if (!pipe.HasWater)
+                    filledAllDestinations = false;
+                continue;
+            }
+
+            bool hasWater = false;
+            foreach (var direction in pipe.WaterPresences.Keys)
+            {
+                if (pipe.WaterPresences[direction])
                 {
-                    if (pipe.WaterPresences[direction])
-                    {
-                        hasWater = true;
-                        break;
-                    }
-                }
-                if (hasWater)
-                {
-                    count++;
+                    hasWater = true;
+                    break;
                 }
             }
+            if (hasWater)
+            {
+                count++;
+            }
         }
-        return count;
+        return filledAllDestinations ? count : -count;
     }
 
     private Direction GetOpositeDirection(Direction direction)
