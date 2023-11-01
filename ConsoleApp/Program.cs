@@ -103,8 +103,8 @@
                     else if (direction == Direction.Bottom)
                     {
                         if (nextPipe.Type == PipeType.Vertical
-                            || nextPipe.Type == PipeType.BottomRight
-                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
                             this.bottomAdjacentPipe = nextPipe;
                     }
@@ -139,8 +139,8 @@
                     else if (direction == Direction.Top)
                     {
                         if (nextPipe.Type == PipeType.Vertical
-                            || nextPipe.Type == PipeType.TopLeft
-                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.BottomRight
                             || nextPipe.Type == PipeType.Cross)
                             this.TopAdjacentPipe = nextPipe;
                     }
