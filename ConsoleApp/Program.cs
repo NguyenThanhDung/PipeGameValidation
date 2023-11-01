@@ -64,9 +64,15 @@
 
     public int solution(string[] state)
     {
+        pipes = ParseState(state);
+        return 0;
+    }
+
+    private Pipe[,] ParseState(string[] state)
+    {
         int numOfRow = state.Length;
         int numOfCol = state[0].Length;
-        pipes = new Pipe[numOfRow, numOfCol];
+        Pipe[,] pipes = new Pipe[numOfRow, numOfCol];
 
         for (int i = 0; i < state.Length; i++)
         {
@@ -78,7 +84,6 @@
                 }
             }
         }
-
-        return 0;
+        return pipes;
     }
 }
