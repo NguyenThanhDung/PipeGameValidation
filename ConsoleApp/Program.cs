@@ -13,6 +13,14 @@
         Destination
     }
 
+    public enum Direction
+    {
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+
     public class Pipe
     {
         private PipeType type;
@@ -44,6 +52,157 @@
             {
                 int num = state - '0';
                 this.Type = (PipeType)num;
+            }
+        }
+
+        public void TryConnect(Direction direction, Pipe nextPipe)
+        {
+            switch (this.Type)
+            {
+                case PipeType.Vertical:
+                    if (direction == Direction.Top)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Bottom)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                case PipeType.Horizontal:
+                    if (direction == Direction.Left)
+                    {
+                        if (nextPipe.Type == PipeType.Horizontal
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Right)
+                    {
+                        if (nextPipe.Type == PipeType.Horizontal
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                case PipeType.BottomRight:
+                    if (direction == Direction.Right)
+                    {
+                        if (nextPipe.Type == PipeType.Horizontal
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Bottom)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                case PipeType.BottomLeft:
+                    if (direction == Direction.Left)
+                    {
+                        if (nextPipe.Type == PipeType.Horizontal
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Bottom)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                case PipeType.TopLeft:
+                    if (direction == Direction.Left)
+                    {
+                        if (nextPipe.Type == PipeType.Horizontal
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Top)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                case PipeType.TopRight:
+                    if (direction == Direction.Top)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Right)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                case PipeType.Cross:
+                    if (direction == Direction.Top)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Bottom)
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else if (direction == Direction.Left)
+                    {
+                        if (nextPipe.Type == PipeType.Horizontal
+                            || nextPipe.Type == PipeType.BottomRight
+                            || nextPipe.Type == PipeType.TopRight
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    else
+                    {
+                        if (nextPipe.Type == PipeType.Vertical
+                            || nextPipe.Type == PipeType.BottomLeft
+                            || nextPipe.Type == PipeType.TopLeft
+                            || nextPipe.Type == PipeType.Cross)
+                            this.TopAdjacentPipe = nextPipe;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -89,12 +248,38 @@
 
     private Pipe[,] FindConnections(Pipe[,] pipes)
     {
-        return null;
+        for (int i = 0; i < pipes.GetLength(0); i++)
+        {
+            for (int j = 0; j < pipes.GetLength(1); i++)
+            {
+                if (i > 0)
+                {
+                    Pipe topPipe = pipes[i - 1, j];
+                    pipes[i, j].TryConnect(Direction.Top, topPipe);
+                }
+                if (i < pipes.GetLength(0))
+                {
+                    Pipe bottomPipe = pipes[i + 1, j];
+                    pipes[i, j].TryConnect(Direction.Bottom, bottomPipe);
+                }
+                if (j > 0)
+                {
+                    Pipe leftPipe = pipes[i, j - 1];
+                    pipes[i, j].TryConnect(Direction.Left, leftPipe);
+                }
+                if (j < pipes.GetLength(1))
+                {
+                    Pipe rightPipe = pipes[i, j + 1];
+                    pipes[i, j].TryConnect(Direction.Right, rightPipe);
+                }
+            }
+        }
+        return pipes;
     }
 
     private Pipe[,] PourWater(Pipe[,] pipes)
     {
-        return null;
+        return pipes;
     }
 
     private int CountWaterPipe(Pipe[,] pipes)
