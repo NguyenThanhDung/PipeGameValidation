@@ -25,28 +25,64 @@
     {
         private PipeType type;
         private Dictionary<Direction, Pipe> adjacentPipes;
-        private bool hasWater;
+        private Dictionary<Direction, bool> waterPresences;
 
-        public PipeType Type { get => type; set => type = value; }
+        public PipeType Type { get => type; }
         public Dictionary<Direction, Pipe> AdjacentPipes { get => adjacentPipes; }
-        public bool HasWater { get => hasWater; set => hasWater = value; }
+        public Dictionary<Direction, bool> WaterPresences { get => waterPresences; }
 
         public Pipe(char state)
         {
             if (state >= 'a' && state <= 'z')
             {
-                this.Type = PipeType.Source;
+                this.type = PipeType.Source;
             }
             else if (state >= 'A' && state <= 'Z')
             {
-                this.Type = PipeType.Destination;
+                this.type = PipeType.Destination;
             }
             else
             {
                 int num = state - '0';
-                this.Type = (PipeType)num;
+                this.type = (PipeType)num;
             }
+
             this.adjacentPipes = new Dictionary<Direction, Pipe>();
+
+            this.waterPresences = new Dictionary<Direction, bool>();
+            switch (this.type)
+            {
+                case PipeType.Vertical:
+                    this.waterPresences.Add(Direction.Top, false);
+                    this.waterPresences.Add(Direction.Bottom, false);
+                    break;
+                case PipeType.Horizontal:
+                    this.waterPresences.Add(Direction.Left, false);
+                    this.waterPresences.Add(Direction.Right, false);
+                    break;
+                case PipeType.BottomRight:
+                    this.waterPresences.Add(Direction.Bottom, false);
+                    this.waterPresences.Add(Direction.Right, false);
+                    break;
+                case PipeType.BottomLeft:
+                    this.waterPresences.Add(Direction.Bottom, false);
+                    this.waterPresences.Add(Direction.Left, false);
+                    break;
+                case PipeType.TopLeft:
+                    this.waterPresences.Add(Direction.Top, false);
+                    this.waterPresences.Add(Direction.Left, false);
+                    break;
+                case PipeType.TopRight:
+                    this.waterPresences.Add(Direction.Top, false);
+                    this.waterPresences.Add(Direction.Right, false);
+                    break;
+                default:
+                    this.waterPresences.Add(Direction.Top, false);
+                    this.waterPresences.Add(Direction.Bottom, false);
+                    this.waterPresences.Add(Direction.Left, false);
+                    this.waterPresences.Add(Direction.Right, false);
+                    break;
+            }
         }
 
         public void TryConnect(Direction direction, Pipe nextPipe)
@@ -235,6 +271,67 @@
                     break;
             }
         }
+
+        public void PourWater(Direction pourDirection)
+        {
+            switch (type)
+            {
+                case PipeType.Vertical:
+                    if (pourDirection == Direction.Top || pourDirection == Direction.Bottom)
+                    {
+                        waterPresences[Direction.Top] = true;
+                        waterPresences[Direction.Bottom] = true;
+                    }
+                    break;
+                case PipeType.Horizontal:
+                    if (pourDirection == Direction.Left || pourDirection == Direction.Right)
+                    {
+                        waterPresences[Direction.Left] = true;
+                        waterPresences[Direction.Right] = true;
+                    }
+                    break;
+                case PipeType.BottomRight:
+                    if (pourDirection == Direction.Bottom || pourDirection == Direction.Right)
+                    {
+                        waterPresences[Direction.Bottom] = true;
+                        waterPresences[Direction.Right] = true;
+                    }
+                    break;
+                case PipeType.BottomLeft:
+                    if (pourDirection == Direction.Bottom || pourDirection == Direction.Left)
+                    {
+                        waterPresences[Direction.Bottom] = true;
+                        waterPresences[Direction.Left] = true;
+                    }
+                    break;
+                case PipeType.TopRight:
+                    if (pourDirection == Direction.Top || pourDirection == Direction.Right)
+                    {
+                        waterPresences[Direction.Top] = true;
+                        waterPresences[Direction.Right] = true;
+                    }
+                    break;
+                case PipeType.TopLeft:
+                    if (pourDirection == Direction.Top || pourDirection == Direction.Left)
+                    {
+                        waterPresences[Direction.Top] = true;
+                        waterPresences[Direction.Left] = true;
+                    }
+                    break;
+                default:
+                    if (pourDirection == Direction.Top || pourDirection == Direction.Bottom)
+                    {
+                        waterPresences[Direction.Top] = true;
+                        waterPresences[Direction.Bottom] = true;
+                    }
+                    if (pourDirection == Direction.Left || pourDirection == Direction.Right)
+                    {
+                        waterPresences[Direction.Left] = true;
+                        waterPresences[Direction.Right] = true;
+                    }
+                    break;
+            }
+        }
     }
 
     public static void Main()
@@ -317,7 +414,8 @@
         {
             if (pipe != null && pipe.Type == PipeType.Source)
             {
-                pipe.HasWater = true;
+                foreach (var direction in pipe.WaterPresences.Keys)
+                    pipe.WaterPresences[direction] = true;
                 queue.Enqueue(pipe);
             }
         }
@@ -328,9 +426,10 @@
             foreach (var direction in pipe.AdjacentPipes.Keys)
             {
                 var adjacentPipe = pipe.AdjacentPipes[direction];
-                if (adjacentPipe.Type != PipeType.Destination && !adjacentPipe.HasWater)
+                var oppositeDirection = GetOpositeDirection(direction);
+                if (adjacentPipe.Type != PipeType.Destination && adjacentPipe.WaterPresences[oppositeDirection] == false)
                 {
-                    adjacentPipe.HasWater = true;
+                    adjacentPipe.PourWater(oppositeDirection);
                     queue.Enqueue(adjacentPipe);
                 }
             }
@@ -342,5 +441,20 @@
     private int CountWaterPipe(Pipe[,] pipes)
     {
         return 0;
+    }
+
+    private Direction GetOpositeDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Top:
+                return Direction.Bottom;
+            case Direction.Bottom:
+                return Direction.Top;
+            case Direction.Left:
+                return Direction.Right;
+            default:
+                return Direction.Left;
+        }
     }
 }
