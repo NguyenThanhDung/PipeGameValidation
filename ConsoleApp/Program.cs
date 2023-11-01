@@ -317,6 +317,14 @@
 
     private Pipe[,] PourWater(Pipe[,] pipes)
     {
+        Queue<Pipe> queue = new Queue<Pipe>();
+
+        foreach (var pipe in pipes)
+        {
+            if (pipe != null && pipe.Type == PipeType.Source)
+                queue.Enqueue(pipe);
+        }
+
         return pipes;
     }
 
