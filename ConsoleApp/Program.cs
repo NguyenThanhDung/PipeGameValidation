@@ -76,7 +76,7 @@
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.bottomAdjacentPipe = nextPipe;
                     }
                     break;
                 case PipeType.Horizontal:
@@ -86,7 +86,7 @@
                             || nextPipe.Type == PipeType.BottomRight
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.leftAdjacentPipe = nextPipe;
                     }
                     else if (direction == Direction.Right)
                     {
@@ -94,7 +94,7 @@
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.rightAdjacentPipe = nextPipe;
                     }
                     break;
                 case PipeType.BottomRight:
@@ -104,7 +104,7 @@
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.rightAdjacentPipe = nextPipe;
                     }
                     else if (direction == Direction.Bottom)
                     {
@@ -112,7 +112,7 @@
                             || nextPipe.Type == PipeType.BottomRight
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.bottomAdjacentPipe = nextPipe;
                     }
                     break;
                 case PipeType.BottomLeft:
@@ -122,7 +122,7 @@
                             || nextPipe.Type == PipeType.BottomRight
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.leftAdjacentPipe = nextPipe;
                     }
                     else if (direction == Direction.Bottom)
                     {
@@ -130,7 +130,7 @@
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.bottomAdjacentPipe = nextPipe;
                     }
                     break;
                 case PipeType.TopLeft:
@@ -140,7 +140,7 @@
                             || nextPipe.Type == PipeType.BottomRight
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.leftAdjacentPipe = nextPipe;
                     }
                     else if (direction == Direction.Top)
                     {
@@ -166,7 +166,7 @@
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.rightAdjacentPipe = nextPipe;
                     }
                     break;
                 case PipeType.Source:
@@ -186,7 +186,7 @@
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.bottomAdjacentPipe = nextPipe;
                     }
                     else if (direction == Direction.Left)
                     {
@@ -194,7 +194,7 @@
                             || nextPipe.Type == PipeType.BottomRight
                             || nextPipe.Type == PipeType.TopRight
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.leftAdjacentPipe = nextPipe;
                     }
                     else
                     {
@@ -202,7 +202,7 @@
                             || nextPipe.Type == PipeType.BottomLeft
                             || nextPipe.Type == PipeType.TopLeft
                             || nextPipe.Type == PipeType.Cross)
-                            this.TopAdjacentPipe = nextPipe;
+                            this.rightAdjacentPipe = nextPipe;
                     }
                     break;
                 default:
