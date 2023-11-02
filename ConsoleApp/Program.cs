@@ -344,7 +344,7 @@
 
                     if (nextPipe == null ||
                         (nextPipe.Type == PipeType.Destination &&
-                        Pipe.IsCorresponding(nextPipe, sequence[0])))
+                        Pipe.IsCorresponding(nextPipe, sequence[0]) == false))
                     {
                         if ((sequence.Count - 1) < minSequenceLength)
                             minSequenceLength = sequence.Count - 1;
