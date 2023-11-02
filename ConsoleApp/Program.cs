@@ -24,10 +24,13 @@
     public class Pipe
     {
         private PipeType type;
+        private char terminalName;
         private Dictionary<Direction, Pipe> adjacentPipes;
         private Dictionary<Direction, bool> waterPresences;
 
         public PipeType Type { get => type; }
+
+        public char TerminalName { get => terminalName; }
         public Dictionary<Direction, Pipe> AdjacentPipes { get => adjacentPipes; }
         public Dictionary<Direction, bool> WaterPresences { get => waterPresences; }
 
@@ -49,10 +52,12 @@
             if (state >= 'a' && state <= 'z')
             {
                 this.type = PipeType.Source;
+                this.terminalName = state;
             }
             else if (state >= 'A' && state <= 'Z')
             {
                 this.type = PipeType.Destination;
+                this.terminalName = state;
             }
             else
             {
@@ -371,12 +376,12 @@
             "6227206A0622Z250"};
         Console.WriteLine(program.solution(state) == -48);
 
-        state = new string[] {"3222222400000000", 
-            "1000032A40000000", 
-            "1000010110000000", 
-            "72q227277Q000000", 
-            "1000010110000000", 
-            "1000062a50000000", 
+        state = new string[] {"3222222400000000",
+            "1000032A40000000",
+            "1000010110000000",
+            "72q227277Q000000",
+            "1000010110000000",
+            "1000062a50000000",
             "6222222500000000"};
         Console.WriteLine(program.solution(state) == -12);
     }
@@ -385,8 +390,8 @@
     {
         Pipe[,] pipes = ParseState(state);
         pipes = FindConnections(pipes);
-        pipes = PourWater(pipes);
-        return CountWaterPipe(pipes);
+        var flowData = PourWater(pipes);
+        return CountWaterPipe(flowData);
     }
 
     private Pipe[,] ParseState(string[] state)
@@ -441,9 +446,9 @@
         return pipes;
     }
 
-    private Pipe[,] PourWater(Pipe[,] pipes)
+    private List<List<Pipe>> PourWater(Pipe[,] pipes)
     {
-        Queue<Pipe> queue = new Queue<Pipe>();
+        Stack<Pipe> stack = new Stack<Pipe>();
 
         foreach (var pipe in pipes)
         {
@@ -451,61 +456,73 @@
             {
                 foreach (var direction in pipe.WaterPresences.Keys)
                     pipe.WaterPresences[direction] = true;
-                queue.Enqueue(pipe);
+                stack.Push(pipe);
             }
         }
 
-        while (queue.Count > 0)
+        List<List<Pipe>> flows = new List<List<Pipe>>();
+        char currentSource = '\0';
+        List<Pipe> currentFlow = new List<Pipe>();
+        while (stack.Count > 0)
         {
-            var pipe = queue.Dequeue();
+            var pipe = stack.Peek();
+
+            if (pipe.Type == PipeType.Source)
+            {
+                currentSource = pipe.TerminalName;
+                if (currentFlow.Count > 0)
+                {
+                    flows.Add(currentFlow);
+                    currentFlow = new List<Pipe>();
+                }
+            }
+
+            bool hasUnwateredAdjacent = false;
             foreach (var direction in pipe.AdjacentPipes.Keys)
             {
                 var adjacentPipe = pipe.AdjacentPipes[direction];
                 var oppositeDirection = GetOpositeDirection(direction);
+
                 if (pipe.WaterPresences[direction] == true
                     && adjacentPipe.WaterPresences[oppositeDirection] == false)
                 {
                     adjacentPipe.PourWater(oppositeDirection);
-                    if (adjacentPipe.Type != PipeType.Destination)
-                        queue.Enqueue(adjacentPipe);
+                    if (adjacentPipe.Type == PipeType.Destination)
+                    {
+                        if (adjacentPipe.TerminalName != currentSource)
+                        {
+                        }
+                    }
+                    else
+                    {
+                        hasUnwateredAdjacent = true;
+                        stack.Push(adjacentPipe);
+                        currentFlow.Add(adjacentPipe);
+                    }
                 }
+            }
+
+            if (!hasUnwateredAdjacent)
+            {
+                stack.Pop();
             }
         }
 
-        return pipes;
+        return flows;
     }
 
-    private int CountWaterPipe(Pipe[,] pipes)
+    private int CountWaterPipe(List<List<Pipe>> flowData)
     {
-        int count = 0;
-        bool filledAllDestinations = true;
-        foreach (var pipe in pipes)
+        List<Pipe> distictPipes = new List<Pipe>();
+        foreach(var flow in flowData)
         {
-            if (pipe == null || pipe.Type == PipeType.Source)
-                continue;
-
-            if (pipe.Type == PipeType.Destination)
+            foreach(var pipe in flow)
             {
-                if (!pipe.HasWater)
-                    filledAllDestinations = false;
-                continue;
-            }
-
-            bool hasWater = false;
-            foreach (var direction in pipe.WaterPresences.Keys)
-            {
-                if (pipe.WaterPresences[direction])
-                {
-                    hasWater = true;
-                    break;
-                }
-            }
-            if (hasWater)
-            {
-                count++;
+                if(!distictPipes.Contains(pipe))
+                    distictPipes.Add(pipe);
             }
         }
-        return filledAllDestinations ? count : -count;
+        return distictPipes.Count;
     }
 
     private Direction GetOpositeDirection(Direction direction)
