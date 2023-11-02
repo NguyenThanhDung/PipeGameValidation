@@ -20,18 +20,48 @@
             "6227206A0622Z250"};
         Console.WriteLine(program.solution(state) == -48);
 
-        state = new string[] {"3222222400000000", 
-            "1000032A40000000", 
-            "1000010110000000", 
-            "72q227277Q000000", 
-            "1000010110000000", 
-            "1000062a50000000", 
+        state = new string[] {"3222222400000000",
+            "1000032A40000000",
+            "1000010110000000",
+            "72q227277Q000000",
+            "1000010110000000",
+            "1000062a50000000",
             "6222222500000000"};
         Console.WriteLine(program.solution(state) == -12);
     }
 
+    public class Coordinate
+    {
+        public int x;
+        public int y;
+
+        public Coordinate(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public int solution(string[] state)
     {
+        List<Coordinate> sources = GetSources(state);
         return 0;
+    }
+
+    private List<Coordinate> GetSources(string[] state)
+    {
+        List<Coordinate> sources = new List<Coordinate>();
+        for (int i = 0; i < state.Length; i++)
+        {
+            for (int j = 0; j < state[i].Length; j++)
+            {
+                if (state[i][j] >= 'a' && state[i][j] <= 'z')
+                {
+                    Coordinate source = new Coordinate(i, j);
+                    sources.Add(source);
+                }
+            }
+        }
+        return sources;
     }
 }
