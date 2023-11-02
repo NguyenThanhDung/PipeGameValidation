@@ -382,6 +382,10 @@
             }
         }
 
+        filledPipes = filledPipes.Distinct().ToList();
+        foreach (var source in sources)
+            filledPipes.Remove(source);
+
         int count = filledPipes.Distinct().ToList().Count;
         return minSequenceLength == int.MaxValue ? count : -count;
     }
@@ -404,7 +408,7 @@
             foreach (var direction in currentPipe.AdjacentPipes.Keys)
             {
                 var pipe = currentPipe.AdjacentPipes[direction];
-                if(pipe == previousPipe)
+                if (pipe == previousPipe)
                 {
                     var oppositeDirection = GetOppositeDirection(direction);
                     return currentPipe.AdjacentPipes[oppositeDirection];
@@ -425,7 +429,7 @@
 
     private Direction GetOppositeDirection(Direction direction)
     {
-        switch(direction)
+        switch (direction)
         {
             case Direction.Top:
                 return Direction.Bottom;
