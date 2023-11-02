@@ -429,7 +429,10 @@
                 if (pipe == previousPipe)
                 {
                     var oppositeDirection = GetOppositeDirection(direction);
-                    return currentPipe.AdjacentPipes[oppositeDirection];
+                    if (currentPipe.AdjacentPipes.ContainsKey(oppositeDirection))
+                        return currentPipe.AdjacentPipes[oppositeDirection];
+                    else
+                        return null;
                 }
             }
         }
