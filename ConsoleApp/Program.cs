@@ -377,6 +377,7 @@
                     sequence.Add(nextPipe);
                 }
 
+                sequence.RemoveAt(0);
                 sequences.Add(sequence);
             }
         }
@@ -399,10 +400,6 @@
                 }
             }
         }
-
-        filledPipes = filledPipes.Distinct().ToList();
-        foreach (var source in sources)
-            filledPipes.Remove(source);
 
         int count = filledPipes.Distinct().ToList().Count;
         return minSequenceLength == int.MaxValue ? count : -count;
