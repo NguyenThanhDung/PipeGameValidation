@@ -36,28 +36,37 @@
     public class Pipe
     {
         private PipeType type;
-
+        private char name;
         private Dictionary<Direction, Pipe> adjacentPipes;
         private bool hasWater;
 
         public PipeType Type { get => type; set => type = value; }
         public bool HasWater { get => hasWater; set => hasWater = value; }
         public Dictionary<Direction, Pipe> AdjacentPipes { get => adjacentPipes; }
+        public char Name { get => name; set => name = value; }
+
+        public static bool IsCorresponding(Pipe pipe1, Pipe pipe2)
+        {
+            return char.ToLower(pipe1.Name) == char.ToLower(pipe2.Name);
+        }
 
         public Pipe(char state)
         {
             if (state >= 'a' && state <= 'z')
             {
                 this.Type = PipeType.Source;
+                this.name = state;
             }
             else if (state >= 'A' && state <= 'Z')
             {
                 this.Type = PipeType.Destination;
+                this.name = state;
             }
             else
             {
                 int num = state - '0';
                 this.Type = (PipeType)num;
+                this.name = '\0';
             }
 
             adjacentPipes = new Dictionary<Direction, Pipe>();
@@ -312,6 +321,9 @@
 
     private int Process(Pipe[,] pipes)
     {
+        int minSequenceLength = int.MaxValue;
+        List<List<Pipe>> sequences = new List<List<Pipe>>();
+
         List<Pipe> sources = GetSources(pipes);
         foreach (var source in sources)
         {
@@ -329,10 +341,49 @@
                 while (true)
                 {
                     nextPipe = FindNextPipe(pipes, currentPipe, previousPipe);
+
+                    if (nextPipe == null ||
+                        (nextPipe.Type == PipeType.Destination &&
+                        Pipe.IsCorresponding(nextPipe, sequence[0])))
+                    {
+                        if ((sequence.Count - 1) < minSequenceLength)
+                            minSequenceLength = sequence.Count - 1;
+                        break;
+                    }
+
+                    if (nextPipe.Type == PipeType.Destination)
+                        break;
+
+                    previousPipe = currentPipe;
+                    currentPipe = nextPipe;
+                    sequence.Add(nextPipe);
+                }
+
+                sequences.Add(sequence);
+            }
+        }
+
+        List<Pipe> filledPipes = new List<Pipe>();
+        if (minSequenceLength == int.MaxValue)
+        {
+            foreach (var sequence in sequences)
+            {
+                filledPipes.AddRange(sequence);
+            }
+        }
+        else
+        {
+            foreach (var sequence in sequences)
+            {
+                for (int i = 0; i < sequence.Count && i < minSequenceLength; i++)
+                {
+                    filledPipes.Add(sequence[i]);
                 }
             }
         }
-        return 0;
+
+        int count = filledPipes.Distinct().ToList().Count;
+        return minSequenceLength == int.MaxValue ? count : -count;
     }
 
     private List<Pipe> GetSources(Pipe[,] pipes)
