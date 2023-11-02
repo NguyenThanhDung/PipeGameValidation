@@ -1,5 +1,17 @@
 ﻿public class Program
 {
+    public static void Main()
+    {
+        string[] state = {"a224C22300000",
+         "0001643722B00",
+         "0b27275100000",
+         "00c7256500000",
+         "0006A45000000"};
+
+        Program program = new Program();
+        Console.WriteLine(program.solution(state) == 19);
+    }
+
     public enum PipeType
     {
         Vertical = 1,
@@ -243,24 +255,11 @@
         }
     }
 
-    public static void Main()
-    {
-        string[] state = {"a224C22300000",
-         "0001643722B00",
-         "0b27275100000",
-         "00c7256500000",
-         "0006A45000000"};
-
-        Program program = new Program();
-        Console.WriteLine(program.solution(state) == 19);
-    }
-
     public int solution(string[] state)
     {
         Pipe[,] pipes = ParseState(state);
         pipes = FindConnections(pipes);
-        pipes = PourWater(pipes);
-        return CountWaterPipe(pipes);
+        return Process(pipes);
     }
 
     private Pipe[,] ParseState(string[] state)
@@ -315,13 +314,20 @@
         return pipes;
     }
 
-    private Pipe[,] PourWater(Pipe[,] pipes)
+    private int Process(Pipe[,] pipes)
     {
-        return pipes;
+        List<Pipe> sources = GetSources(pipes);
+        return 0;
     }
 
-    private int CountWaterPipe(Pipe[,] pipes)
+    private List<Pipe> GetSources(Pipe[,] pipes)
     {
-        return 0;
+        List<Pipe> sources = new List<Pipe>();
+        foreach (var pipe in pipes)
+        {
+            if (pipe != null && pipe.Type == PipeType.Source)
+                sources.Add(pipe);
+        }
+        return sources;
     }
 }
