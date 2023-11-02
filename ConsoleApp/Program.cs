@@ -399,12 +399,42 @@
 
     private Pipe FindNextPipe(Pipe[,] pipes, Pipe currentPipe, Pipe previousPipe)
     {
-        foreach (var direction in currentPipe.AdjacentPipes.Keys)
+        if (currentPipe.Type == PipeType.Cross)
         {
-            var nextPipe = currentPipe.AdjacentPipes[direction];
-            if (nextPipe != previousPipe)
-                return nextPipe;
+            foreach (var direction in currentPipe.AdjacentPipes.Keys)
+            {
+                var pipe = currentPipe.AdjacentPipes[direction];
+                if(pipe == previousPipe)
+                {
+                    var oppositeDirection = GetOppositeDirection(direction);
+                    return currentPipe.AdjacentPipes[oppositeDirection];
+                }
+            }
+        }
+        else
+        {
+            foreach (var direction in currentPipe.AdjacentPipes.Keys)
+            {
+                var nextPipe = currentPipe.AdjacentPipes[direction];
+                if (nextPipe != previousPipe)
+                    return nextPipe;
+            }
         }
         return null;
+    }
+
+    private Direction GetOppositeDirection(Direction direction)
+    {
+        switch(direction)
+        {
+            case Direction.Top:
+                return Direction.Bottom;
+            case Direction.Bottom:
+                return Direction.Top;
+            case Direction.Left:
+                return Direction.Right;
+            default:
+                return Direction.Left;
+        }
     }
 }
