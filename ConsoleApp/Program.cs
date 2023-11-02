@@ -313,11 +313,23 @@
     private int Process(Pipe[,] pipes)
     {
         List<Pipe> sources = GetSources(pipes);
-        foreach(var source in sources)
+        foreach (var source in sources)
         {
-            foreach(var direction in source.AdjacentPipes.Keys)
+            foreach (var direction in source.AdjacentPipes.Keys)
             {
+                var nextPipe = source.AdjacentPipes[direction];
 
+                List<Pipe> sequence = new List<Pipe>();
+                sequence.Add(source);
+                sequence.Add(nextPipe);
+
+                Pipe previousPipe = source;
+                Pipe currentPipe = nextPipe;
+
+                while (true)
+                {
+                    nextPipe = FindNextPipe(pipes, currentPipe, previousPipe);
+                }
             }
         }
         return 0;
@@ -332,5 +344,16 @@
                 sources.Add(pipe);
         }
         return sources;
+    }
+
+    private Pipe FindNextPipe(Pipe[,] pipes, Pipe currentPipe, Pipe previousPipe)
+    {
+        foreach (var direction in currentPipe.AdjacentPipes.Keys)
+        {
+            var nextPipe = currentPipe.AdjacentPipes[direction];
+            if (nextPipe != previousPipe)
+                return nextPipe;
+        }
+        return null;
     }
 }
