@@ -37,12 +37,12 @@
     {
         private PipeType type;
 
-        private Dictionary<Direction, Pipe> adjacentPipe;
+        private Dictionary<Direction, Pipe> adjacentPipes;
         private bool hasWater;
 
         public PipeType Type { get => type; set => type = value; }
         public bool HasWater { get => hasWater; set => hasWater = value; }
-        public Dictionary<Direction, Pipe> AdjacentPipe { get => adjacentPipe; }
+        public Dictionary<Direction, Pipe> AdjacentPipes { get => adjacentPipes; }
 
         public Pipe(char state)
         {
@@ -60,7 +60,7 @@
                 this.Type = (PipeType)num;
             }
 
-            adjacentPipe = new Dictionary<Direction, Pipe>();
+            adjacentPipes = new Dictionary<Direction, Pipe>();
         }
 
         public void TryConnect(Direction direction, Pipe nextPipe)
@@ -78,7 +78,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Top, nextPipe);
+                            adjacentPipes.Add(Direction.Top, nextPipe);
                     }
                     else if (direction == Direction.Bottom)
                     {
@@ -88,7 +88,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Bottom, nextPipe);
+                            adjacentPipes.Add(Direction.Bottom, nextPipe);
                     }
                     break;
                 case PipeType.Horizontal:
@@ -100,7 +100,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Left, nextPipe);
+                            adjacentPipes.Add(Direction.Left, nextPipe);
                     }
                     else if (direction == Direction.Right)
                     {
@@ -110,7 +110,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Right, nextPipe);
+                            adjacentPipes.Add(Direction.Right, nextPipe);
                     }
                     break;
                 case PipeType.BottomRight:
@@ -122,7 +122,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Right, nextPipe);
+                            adjacentPipes.Add(Direction.Right, nextPipe);
                     }
                     else if (direction == Direction.Bottom)
                     {
@@ -132,7 +132,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Bottom, nextPipe);
+                            adjacentPipes.Add(Direction.Bottom, nextPipe);
                     }
                     break;
                 case PipeType.BottomLeft:
@@ -144,7 +144,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Left, nextPipe);
+                            adjacentPipes.Add(Direction.Left, nextPipe);
                     }
                     else if (direction == Direction.Bottom)
                     {
@@ -154,7 +154,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Bottom, nextPipe);
+                            adjacentPipes.Add(Direction.Bottom, nextPipe);
                     }
                     break;
                 case PipeType.TopLeft:
@@ -166,7 +166,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Left, nextPipe);
+                            adjacentPipes.Add(Direction.Left, nextPipe);
                     }
                     else if (direction == Direction.Top)
                     {
@@ -176,7 +176,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Top, nextPipe);
+                            adjacentPipes.Add(Direction.Top, nextPipe);
                     }
                     break;
                 case PipeType.TopRight:
@@ -188,7 +188,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Top, nextPipe);
+                            adjacentPipes.Add(Direction.Top, nextPipe);
                     }
                     else if (direction == Direction.Right)
                     {
@@ -198,7 +198,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Right, nextPipe);
+                            adjacentPipes.Add(Direction.Right, nextPipe);
                     }
                     break;
                 case PipeType.Cross:
@@ -212,7 +212,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Top, nextPipe);
+                            adjacentPipes.Add(Direction.Top, nextPipe);
                     }
                     else if (direction == Direction.Bottom)
                     {
@@ -222,7 +222,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Bottom, nextPipe);
+                            adjacentPipes.Add(Direction.Bottom, nextPipe);
                     }
                     else if (direction == Direction.Left)
                     {
@@ -232,7 +232,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Left, nextPipe);
+                            adjacentPipes.Add(Direction.Left, nextPipe);
                     }
                     else
                     {
@@ -242,7 +242,7 @@
                             || nextPipe.Type == PipeType.Cross
                             || nextPipe.Type == PipeType.Source
                             || nextPipe.Type == PipeType.Destination)
-                            adjacentPipe.Add(Direction.Right, nextPipe);
+                            adjacentPipes.Add(Direction.Right, nextPipe);
                     }
                     break;
                 default:
@@ -315,7 +315,10 @@
         List<Pipe> sources = GetSources(pipes);
         foreach(var source in sources)
         {
+            foreach(var direction in source.AdjacentPipes.Keys)
+            {
 
+            }
         }
         return 0;
     }
