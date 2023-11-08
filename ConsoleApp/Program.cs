@@ -88,6 +88,21 @@
             adjacentPipes = new Dictionary<Direction, Pipe>();
         }
 
+        private Direction GetOppositeDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Top:
+                    return Direction.Bottom;
+                case Direction.Bottom:
+                    return Direction.Top;
+                case Direction.Left:
+                    return Direction.Right;
+                default:
+                    return Direction.Left;
+            }
+        }
+
         public void TryConnect(Direction direction, Pipe nextPipe)
         {
             if (nextPipe == null)
@@ -274,6 +289,35 @@
                     break;
             }
         }
+
+        public Pipe FindNextPipe(Pipe previousPipe)
+        {
+            if (Type == PipeType.Cross)
+            {
+                foreach (var direction in AdjacentPipes.Keys)
+                {
+                    var pipe = AdjacentPipes[direction];
+                    if (pipe == previousPipe)
+                    {
+                        var oppositeDirection = GetOppositeDirection(direction);
+                        if (AdjacentPipes.ContainsKey(oppositeDirection))
+                            return AdjacentPipes[oppositeDirection];
+                        else
+                            return null;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var direction in AdjacentPipes.Keys)
+                {
+                    var nextPipe = AdjacentPipes[direction];
+                    if (nextPipe != previousPipe)
+                        return nextPipe;
+                }
+            }
+            return null;
+        }
     }
 
     public int solution(string[] state)
@@ -353,7 +397,7 @@
 
                 while (true)
                 {
-                    nextPipe = FindNextPipe(pipes, currentPipe, previousPipe);
+                    nextPipe = currentPipe.FindNextPipe(previousPipe);
 
                     if (nextPipe == null ||
                         (nextPipe.Type == PipeType.Destination &&
@@ -409,49 +453,5 @@
                 sources.Add(pipe);
         }
         return sources;
-    }
-
-    private Pipe FindNextPipe(Pipe[,] pipes, Pipe currentPipe, Pipe previousPipe)
-    {
-        if (currentPipe.Type == PipeType.Cross)
-        {
-            foreach (var direction in currentPipe.AdjacentPipes.Keys)
-            {
-                var pipe = currentPipe.AdjacentPipes[direction];
-                if (pipe == previousPipe)
-                {
-                    var oppositeDirection = GetOppositeDirection(direction);
-                    if (currentPipe.AdjacentPipes.ContainsKey(oppositeDirection))
-                        return currentPipe.AdjacentPipes[oppositeDirection];
-                    else
-                        return null;
-                }
-            }
-        }
-        else
-        {
-            foreach (var direction in currentPipe.AdjacentPipes.Keys)
-            {
-                var nextPipe = currentPipe.AdjacentPipes[direction];
-                if (nextPipe != previousPipe)
-                    return nextPipe;
-            }
-        }
-        return null;
-    }
-
-    private Direction GetOppositeDirection(Direction direction)
-    {
-        switch (direction)
-        {
-            case Direction.Top:
-                return Direction.Bottom;
-            case Direction.Bottom:
-                return Direction.Top;
-            case Direction.Left:
-                return Direction.Right;
-            default:
-                return Direction.Left;
-        }
     }
 }
