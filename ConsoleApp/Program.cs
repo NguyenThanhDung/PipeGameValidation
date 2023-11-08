@@ -56,10 +56,8 @@
         private PipeType type;
         private char name;
         private Dictionary<Direction, Pipe> adjacentPipes;
-        private bool hasWater;
 
         public PipeType Type { get => type; set => type = value; }
-        public bool HasWater { get => hasWater; set => hasWater = value; }
         public Dictionary<Direction, Pipe> AdjacentPipes { get => adjacentPipes; }
         public char Name { get => name; set => name = value; }
 
