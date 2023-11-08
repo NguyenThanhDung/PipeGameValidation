@@ -88,21 +88,6 @@
             adjacentPipes = new Dictionary<Direction, Pipe>();
         }
 
-        private Direction GetOppositeDirection(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Top:
-                    return Direction.Bottom;
-                case Direction.Bottom:
-                    return Direction.Top;
-                case Direction.Left:
-                    return Direction.Right;
-                default:
-                    return Direction.Left;
-            }
-        }
-
         public void TryConnect(Direction direction, Pipe nextPipe)
         {
             if (nextPipe == null)
@@ -318,6 +303,21 @@
             }
             return null;
         }
+
+        private Direction GetOppositeDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Top:
+                    return Direction.Bottom;
+                case Direction.Bottom:
+                    return Direction.Top;
+                case Direction.Left:
+                    return Direction.Right;
+                default:
+                    return Direction.Left;
+            }
+        }
     }
 
     public int solution(string[] state)
@@ -413,6 +413,7 @@
 
                     previousPipe = currentPipe;
                     currentPipe = nextPipe;
+
                     sequence.Add(nextPipe);
                 }
 
