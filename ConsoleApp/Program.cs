@@ -346,10 +346,7 @@
             foreach (var direction in source.AdjacentPipes.Keys)
             {
                 var nextPipe = source.AdjacentPipes[direction];
-
-                List<Pipe> sequence = new List<Pipe>();
-                sequence.Add(source);
-                sequence.Add(nextPipe);
+                List<Pipe> sequence = new List<Pipe> { source, nextPipe };
 
                 Pipe previousPipe = source;
                 Pipe currentPipe = nextPipe;
